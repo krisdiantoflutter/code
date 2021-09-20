@@ -22,40 +22,40 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-   final String myUrl = "https://carinih.ws/api/user_account/";
-  List data1;
+  //  final String myUrl = "https://carinih.ws/api/user_account/";
+  // List data1;
   
+  // //
+  // Future<String>getData()async{
+  //   var response = await http.get(Uri.parse(Uri.encodeFull(myUrl)),
+  //   headers: {"Accept":"application/json"}
+  //   );
+  //   print(response.body);
+  //   //
+  //   setState(() {
+  //     var converDataToJson = json.decode(response.body);
+  //     data1 = converDataToJson['data'];
+  //   });
+  //   return "Success";
+  // }
   //
-  Future<String>getData()async{
-    var response = await http.get(Uri.parse(Uri.encodeFull(myUrl)),
-    headers: {"Accept":"application/json"}
-    );
-    print(response.body);
-    //
-    setState(() {
-      var converDataToJson = json.decode(response.body);
-      data1 = converDataToJson['data'];
-    });
-    return "Success";
-  }
   //
-  //
-  String gmail;
-  String pas;
-  getRegister() async {
-    var res = await http
-        .get(Uri.parse(Uri.encodeFull('https://carinih.ws/api/web_profile/')));
-    if (res.statusCode == 200) {
-      var jsonObj = json.decode(res.body);
-      gmail = jsonObj['data'][0]['gmail'];
-      pas = jsonObj['data'][0]['password'];
-      return print(jsonObj);
-    } else {
-      //
-    }
-//
-//
-  }
+//   String gmail;
+//   String pas;
+//   getRegister() async {
+//     var res = await http
+//         .get(Uri.parse(Uri.encodeFull('https://carinih.ws/api/web_profile/')));
+//     if (res.statusCode == 200) {
+//       var jsonObj = json.decode(res.body);
+//       gmail = jsonObj['data'][0]['gmail'];
+//       pas = jsonObj['data'][0]['password'];
+//       return print(jsonObj);
+//     } else {
+//       //
+//     }
+// //
+// //
+//   }
 
   String data;
   generate() {
@@ -73,7 +73,7 @@ class _SignUpState extends State<SignUp> {
   addData() {
     // var random = randomAlphaNumeric(32).toLowerCase();
     // String myUrl = "http://45.13.132.61:3000/reseller/signup";
-    String myUrl = "https://carinih.ws/api/user_account/register";
+    String myUrl = "https://carinih.ws/api/account/register";
     http.post(Uri.parse(Uri.encodeFull(myUrl)), headers: {
       'Accept': 'application/json',
       // "imei": "123456"
@@ -82,23 +82,92 @@ class _SignUpState extends State<SignUp> {
       "email": email.text,
       "mobile_phone": nomorhp.text,
       "password": pass.text,
-      "verification_code": '$data',
-      "reset_code": "",
-      "role": "4",
-      "status": 'inactive'
+      // "verification_code": '$data',
+      // "reset_code": "",
+      // "role": "4",
+      // "status": 'active'
     }).then((response) {
-      if (response.statusCode == 200) {
-        var jsonObj = json.decode(response.body);
-        print(jsonObj);
-        setState(() {
-          data = '${jsonObj['data']['verification_code']}';
-          statusinactive = '${jsonObj['data']['status']}';
-          namauser = '${jsonObj['data']['user_name']}';
-          emailuser = '${jsonObj['data']['email']}';
-        });
+        // var jsonObj = json.decode(response.body);
+      if (response.statusCode == 404) {
+        // print(jsonObj);
+        // var data1=jsonObj['message'];
+        // print(data1);
+        showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return  Dialog(
+          
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Stack(
+          overflow: Overflow.visible,
+          children: [
+            Container(
+             height: 200,
+             width: double.infinity,
+              margin: EdgeInsets.only(top:20),
+              decoration: BoxDecoration(
+                color:Colors.white,
+                shape:BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(17),
+                boxShadow:[
+                  BoxShadow(
+                    color:Colors.black26,
+                    blurRadius:10.0,
+                    offset: Offset(0.0,10.0),
+                  ),
+                ]
+              ),
+              child:Padding(
+                padding: const EdgeInsets.only(top:70.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 10,),
+                    Text('Maaf!!!',style: TextStyle(fontFamily: 'Comfortaa',fontSize: 13,fontWeight: FontWeight.w900)),
+                    SizedBox(height: 10,),
+                    Text('Data Yang Anda Masukkan Sudah Ada',style: TextStyle(fontFamily: 'Comfortaa',fontSize: 13,fontWeight: FontWeight.w900)),
+                ],),
+              )
+            ),
+            Positioned(
+              // bottom: 10,
+               top: 0,
+              left:16,
+              right:16,
+              child:Container(
+                height: 80,
+                width: 80,
+                child: Image.asset('gambar/C_icon.png')),
+            )
+          ],
+        ),
+  );
+      },
+    );
+      
+    
+                
+        // setState(() {
+        //   data = '${jsonObj['data']['verification_code']}';
+        //   statusinactive = '${jsonObj['data']['status']}';
+        //   namauser = '${jsonObj['data']['user_name']}';
+        //   emailuser = '${jsonObj['data']['email']}';
+        // });
+      }else{
+           Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        SelesaiVerifikasi()));
       }
-      print('$statusinactive');
-      return print('$data');
+      // print('$statusinactive');
+      // return print(json);
       //   return showDialog(
       //       context: context,
       //       barrierDismissible: false,
@@ -212,494 +281,494 @@ class _SignUpState extends State<SignUp> {
   //   }
   // }
 
-  main1() {
-    //  parse(
-    //     """<body>$data <a href="www.html5rocks.com">HTML5 rocks!')""");
-    // print(document.outerHtml);
-    // If you want to use an arbitrary SMTP server, go with `new SmtpOptions()`.
-    // This class below is just for convenience. There are more similar classes available.
-    var options = new GmailSmtpOptions()
-      //  ..username = 'rakar5732@gmail.com'
-      //   ..password =
-      //       'xfgzrfnowxzdiwxg';
-      ..username = 'appcarinih@gmail.com'
-      ..password =
-          'megfhehwrfqiufsu'; // Note: if you have Google's "app specific passwords" enabled,
-    // you need to use one of those here.
+  // main1() {
+  //   //  parse(
+  //   //     """<body>$data <a href="www.html5rocks.com">HTML5 rocks!')""");
+  //   // print(document.outerHtml);
+  //   // If you want to use an arbitrary SMTP server, go with `new SmtpOptions()`.
+  //   // This class below is just for convenience. There are more similar classes available.
+  //   var options = new GmailSmtpOptions()
+  //     //  ..username = 'rakar5732@gmail.com'
+  //     //   ..password =
+  //     //       'xfgzrfnowxzdiwxg';
+  //     ..username = 'appcarinih@gmail.com'
+  //     ..password =
+  //         'megfhehwrfqiufsu'; // Note: if you have Google's "app specific passwords" enabled,
+  //   // you need to use one of those here.
 
-    // How you use and store passwords is up to you. Beware of storing passwords in plain.
+  //   // How you use and store passwords is up to you. Beware of storing passwords in plain.
 
-    // Create our email transport.
-    var emailTransport = new SmtpTransport(options);
+  //   // Create our email transport.
+  //   var emailTransport = new SmtpTransport(options);
 
-    // Create our mail/envelope.
-    var envelope = new Envelope()
-      ..from = 'cari@carimakan.co.id'
-      ..recipients.add('${email.text}')
-      // ..bccRecipients.add('hidden@recipient.com')
-      ..subject = 'CARInih & CARImakan'
-      // ..attachments.add(new Attachment(file: new File('path/to/file')))
-      // ..text = 'ini'
-      // ..html =  "https://www.carinih.ws/webmin/verification/index/$data/";
-      ..html =
-          """<!DOCTYPE HTML PUBLIC '-//W3C//DTD XHTML 1.0 Transitional //EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-            <html xmlns='http://www.w3.org/1999/xhtml' xmlns:v='urn:schemas-microsoft-com:vml' xmlns:o='urn:schemas-microsoft-com:office:office'>
-            <head>
-            <!--[if gte mso 9]>
-            <xml>
-              <o:OfficeDocumentSettings>
-                <o:AllowPNG/>
-                <o:PixelsPerInch>96</o:PixelsPerInch>
-              </o:OfficeDocumentSettings>
-            </xml>
-            <![endif]-->
-              <link href='https://carinih.ws/assets/fonts/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
-              <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-              <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-              <meta name='x-apple-disable-message-reformatting'>
-              <!--[if !mso]><!--><meta http-equiv='X-UA-Compatible' content='IE=edge'><!--<![endif]-->
+  //   // Create our mail/envelope.
+  //   var envelope = new Envelope()
+  //     ..from = 'cari@carimakan.co.id'
+  //     ..recipients.add('${email.text}')
+  //     // ..bccRecipients.add('hidden@recipient.com')
+  //     ..subject = 'CARInih & CARImakan'
+  //     // ..attachments.add(new Attachment(file: new File('path/to/file')))
+  //     // ..text = 'ini'
+  //     // ..html =  "https://www.carinih.ws/webmin/verification/index/$data/";
+  //     ..html =
+  //         """<!DOCTYPE HTML PUBLIC '-//W3C//DTD XHTML 1.0 Transitional //EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+  //           <html xmlns='http://www.w3.org/1999/xhtml' xmlns:v='urn:schemas-microsoft-com:vml' xmlns:o='urn:schemas-microsoft-com:office:office'>
+  //           <head>
+  //           <!--[if gte mso 9]>
+  //           <xml>
+  //             <o:OfficeDocumentSettings>
+  //               <o:AllowPNG/>
+  //               <o:PixelsPerInch>96</o:PixelsPerInch>
+  //             </o:OfficeDocumentSettings>
+  //           </xml>
+  //           <![endif]-->
+  //             <link href='https://carinih.ws/assets/fonts/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
+  //             <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+  //             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  //             <meta name='x-apple-disable-message-reformatting'>
+  //             <!--[if !mso]><!--><meta http-equiv='X-UA-Compatible' content='IE=edge'><!--<![endif]-->
 
-              <title></title>
+  //             <title></title>
               
-                <style type='text/css'>
-                  table, td { color: #000000; } a { color: #161a39; text-decoration: underline; }
-            @media only screen and (min-width: 620px) {
-              .u-row {
-                width: 600px !important;
-              }
-              .u-row .u-col {
-                vertical-align: top;
-              }
+  //               <style type='text/css'>
+  //                 table, td { color: #000000; } a { color: #161a39; text-decoration: underline; }
+  //           @media only screen and (min-width: 620px) {
+  //             .u-row {
+  //               width: 600px !important;
+  //             }
+  //             .u-row .u-col {
+  //               vertical-align: top;
+  //             }
 
-              .u-row .u-col-50 {
-                width: 300px !important;
-              }
+  //             .u-row .u-col-50 {
+  //               width: 300px !important;
+  //             }
 
-              .u-row .u-col-100 {
-                width: 600px !important;
-              }
+  //             .u-row .u-col-100 {
+  //               width: 600px !important;
+  //             }
 
-            }
+  //           }
 
-            @media (max-width: 620px) {
-              .u-row-container {
-                max-width: 100% !important;
-                padding-left: 0px !important;
-                padding-right: 0px !important;
-              }
-              .u-row .u-col {
-                min-width: 320px !important;
-                max-width: 100% !important;
-                display: block !important;
-              }
-              .u-row {
-                width: calc(100% - 40px) !important;
-              }
-              .u-col {
-                width: 100% !important;
-              }
-              .u-col > div {
-                margin: 0 auto;
-              }
-            }
-            body {
-              margin: 0;
-              padding: 0;
-            }
+  //           @media (max-width: 620px) {
+  //             .u-row-container {
+  //               max-width: 100% !important;
+  //               padding-left: 0px !important;
+  //               padding-right: 0px !important;
+  //             }
+  //             .u-row .u-col {
+  //               min-width: 320px !important;
+  //               max-width: 100% !important;
+  //               display: block !important;
+  //             }
+  //             .u-row {
+  //               width: calc(100% - 40px) !important;
+  //             }
+  //             .u-col {
+  //               width: 100% !important;
+  //             }
+  //             .u-col > div {
+  //               margin: 0 auto;
+  //             }
+  //           }
+  //           body {
+  //             margin: 0;
+  //             padding: 0;
+  //           }
 
-            table,
-            tr,
-            td {
-              vertical-align: top;
-              border-collapse: collapse;
-            }
+  //           table,
+  //           tr,
+  //           td {
+  //             vertical-align: top;
+  //             border-collapse: collapse;
+  //           }
 
-            p {
-              margin: 0;
-            }
+  //           p {
+  //             margin: 0;
+  //           }
 
-            .ie-container table,
-            .mso-container table {
-              table-layout: fixed;
-            }
+  //           .ie-container table,
+  //           .mso-container table {
+  //             table-layout: fixed;
+  //           }
 
-            * {
-              line-height: inherit;
-            }
+  //           * {
+  //             line-height: inherit;
+  //           }
 
-            a[x-apple-data-detectors='true'] {
-              color: inherit !important;
-              text-decoration: none !important;
-            }
+  //           a[x-apple-data-detectors='true'] {
+  //             color: inherit !important;
+  //             text-decoration: none !important;
+  //           }
 
-            </style>
+  //           </style>
               
               
 
-            <!--[if !mso]><!--><link href='https://fonts.googleapis.com/css?family=Lato:400,700&display=swap' rel='stylesheet' type='text/css'><!--<![endif]-->
+  //           <!--[if !mso]><!--><link href='https://fonts.googleapis.com/css?family=Lato:400,700&display=swap' rel='stylesheet' type='text/css'><!--<![endif]-->
 
-            </head>
+  //           </head>
 
-            <body class='clean-body' style='margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-image: url(https://carinih.ws/assets/images/notif_email.png);background-size: cover;color: #000000'>
-              <!--[if IE]><div class='ie-container'><![endif]-->
-              <!--[if mso]><div class='mso-container'><![endif]-->
-              <table style='border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;' cellpadding='0' cellspacing='0'>
-              <tbody>
-              <tr style='vertical-align: top'>
-                <td style='word-break: break-word;border-collapse: collapse !important;vertical-align: top'>
-                <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td align='center' style='background-color: #f9f9f9;'><![endif]-->
+  //           <body class='clean-body' style='margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-image: url(https://carinih.ws/assets/images/notif_email.png);background-size: cover;color: #000000'>
+  //             <!--[if IE]><div class='ie-container'><![endif]-->
+  //             <!--[if mso]><div class='mso-container'><![endif]-->
+  //             <table style='border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;' cellpadding='0' cellspacing='0'>
+  //             <tbody>
+  //             <tr style='vertical-align: top'>
+  //               <td style='word-break: break-word;border-collapse: collapse !important;vertical-align: top'>
+  //               <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td align='center' style='background-color: #f9f9f9;'><![endif]-->
                 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent;'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: #f9f9f9;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #f9f9f9;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent;'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: #f9f9f9;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #f9f9f9;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
-              <div style='width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
+  //             <div style='width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:15px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:15px;font-family:Lato,sans-serif;' align='left'>
                     
-              <table height='0px' align='center' border='0' cellpadding='0' cellspacing='0' width='100%' style='border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;border-top: 1px solid transparent;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%'>
-                <tbody>
-                  <tr style='vertical-align: top'>
-                    <td style='word-break: break-word;border-collapse: collapse !important;vertical-align: top;font-size: 0px;line-height: 0px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%'>
-                      <span>&#160;</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+  //             <table height='0px' align='center' border='0' cellpadding='0' cellspacing='0' width='100%' style='border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;border-top: 1px solid transparent;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%'>
+  //               <tbody>
+  //                 <tr style='vertical-align: top'>
+  //                   <td style='word-break: break-word;border-collapse: collapse !important;vertical-align: top;font-size: 0px;line-height: 0px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%'>
+  //                     <span>&#160;</span>
+  //                   </td>
+  //                 </tr>
+  //               </tbody>
+  //             </table>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #161a39;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #161a39;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='600' style='background-color: #8f22a8;width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
-              <div style='background-color: transparent;width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='600' style='background-color: #8f22a8;width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
+  //             <div style='background-color: transparent;width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
            
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #ffffff;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #ffffff;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
-              <div style='width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
-              <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top: 40px'>
-              <tr>
-                <td style='padding-right: 0px;padding-left: 0px;' align='center'>
+  //           <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
+  //             <div style='width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top: 40px'>
+  //             <tr>
+  //               <td style='padding-right: 0px;padding-left: 0px;' align='center'>
                   
-                  <img align='center' border='0' src='http://carinih.ws/assets/images/logo_c.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 30%;max-width: 83px;' width='80'/>
+  //                 <img align='center' border='0' src='http://carinih.ws/assets/images/logo_c.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 30%;max-width: 83px;' width='80'/>
                   
-                </td>
-              </tr>
-            </table>
+  //               </td>
+  //             </tr>
+  //           </table>
             
-            <table style='font-family:'Lato,sans-serif; role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:'Lato,sans-serif; role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:Lato,sans-serif;' align='left'>
                     
-              <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
-                <p style='font-size: 14px; line-height: 140%;'>Hi</p>
-            <p style='font-size: 14px; line-height: 140%;'><br /><span style='color: #843fa1; font-size: 14px; line-height: 19.6px;'><font color='#954ed9'><strong>${username.text}!</strong></font></span></p>
-            <p style='font-size: 14px; line-height: 140%;'><br /><b>Terima kasih telah mendaftar di CARInih!</b> <br> Mohon aktifkan akun CARInih kamu dengan klik tombol verifikasi di bawah ini.</p>
-            <p style='font-size: 14px; line-height: 140%;'><br />Apabila kamu tidak merasa mendaftar di CARInih, mohon abaikan<br />email ini atau hubungi kami di<span style='color: #843fa1; font-size: 14px; line-height: 19.6px;'><strong> <a style='color: #954ed9;' href='mailto:care@carinih.com'   rel='noopener'>care@carinih.com</a></strong></span></p>
-              </div>
+  //             <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
+  //               <p style='font-size: 14px; line-height: 140%;'>Hi</p>
+  //           <p style='font-size: 14px; line-height: 140%;'><br /><span style='color: #843fa1; font-size: 14px; line-height: 19.6px;'><font color='#954ed9'><strong>${username.text}!</strong></font></span></p>
+  //           <p style='font-size: 14px; line-height: 140%;'><br /><b>Terima kasih telah mendaftar di CARInih!</b> <br> Mohon aktifkan akun CARInih kamu dengan klik tombol verifikasi di bawah ini.</p>
+  //           <p style='font-size: 14px; line-height: 140%;'><br />Apabila kamu tidak merasa mendaftar di CARInih, mohon abaikan<br />email ini atau hubungi kami di<span style='color: #843fa1; font-size: 14px; line-height: 19.6px;'><strong> <a style='color: #954ed9;' href='mailto:care@carinih.com'   rel='noopener'>care@carinih.com</a></strong></span></p>
+  //             </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #ffffff;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #ffffff;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
-              <div style='width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
+  //             <div style='width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:0px 0px 0px 40px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:0px 0px 0px 40px;font-family:Lato,sans-serif;' align='left'>
                     
-            <div align='left'>
-              <!--[if mso]><table width='100%' cellpadding='0' cellspacing='0' border='0' style='border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:Lato,sans-serif;'><tr><td style='font-family:Lato,sans-serif;' align='left'><v:roundrect xmlns:v='urn:schemas-microsoft-com:vml' xmlns:w='urn:schemas-microsoft-com:office:word' href='https://www.carinih.com?verification_url' style='height:49px; v-text-anchor:middle; width:191px;' arcsize='63.5%' stroke='f' fillcolor='#6e1f6e'><w:anchorlock/><center style='color:#FFFFFF;font-family:Lato,sans-serif;'><![endif]-->
-                <a href='https://www.carinih.ws/webmin/verification/index/$data' target='_blank' style='box-sizing: border-box;display: inline-block;font-family:Lato,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #954ed9; border-radius: 31px; -webkit-border-radius: 31px; -moz-border-radius: 31px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-width: 0px; border-top-style: solid; border-top-color: #CCC; border-left-width: 0px; border-left-style: solid; border-left-color: #CCC; border-right-width: 0px; border-right-style: solid; border-right-color: #CCC; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: #CCC;'>
-                  <span style='display:block;padding:15px 40px;line-height:120%;'><span style='font-size: 16px; line-height: 19.2px;'><strong><span style='line-height: 19.2px; font-size: 16px;'>Verifikasi Email</span></strong></span></span>
-                </a>
-              <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
-            </div>
+  //           <div align='left'>
+  //             <!--[if mso]><table width='100%' cellpadding='0' cellspacing='0' border='0' style='border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:Lato,sans-serif;'><tr><td style='font-family:Lato,sans-serif;' align='left'><v:roundrect xmlns:v='urn:schemas-microsoft-com:vml' xmlns:w='urn:schemas-microsoft-com:office:word' href='https://www.carinih.com?verification_url' style='height:49px; v-text-anchor:middle; width:191px;' arcsize='63.5%' stroke='f' fillcolor='#6e1f6e'><w:anchorlock/><center style='color:#FFFFFF;font-family:Lato,sans-serif;'><![endif]-->
+  //               <a href='https://www.carinih.ws/webmin/verification/index/$data' target='_blank' style='box-sizing: border-box;display: inline-block;font-family:Lato,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #954ed9; border-radius: 31px; -webkit-border-radius: 31px; -moz-border-radius: 31px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-width: 0px; border-top-style: solid; border-top-color: #CCC; border-left-width: 0px; border-left-style: solid; border-left-color: #CCC; border-right-width: 0px; border-right-style: solid; border-right-color: #CCC; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: #CCC;'>
+  //                 <span style='display:block;padding:15px 40px;line-height:120%;'><span style='font-size: 16px; line-height: 19.2px;'><strong><span style='line-height: 19.2px; font-size: 16px;'>Verifikasi Email</span></strong></span></span>
+  //               </a>
+  //             <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
+  //           </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:Lato,sans-serif;' align='left'>
                     
-              <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
-                <p style='font-size: 14px; line-height: 140%;'>atau klik<br /><span style='color: #843fa1; font-size: 14px; line-height: 19.6px;'><strong><span style='font-size: 14px; line-height: 19.6px;'><a style='color: #954ed9;'<a href='https://www.carinih.ws/webmin/verification/index/$data' target='_blank' rel='noopener'>https://www.carinih.com/verification/$data</a></span></strong></span></p>
-            <p style='font-size: 14px; line-height: 140%;'>&nbsp;</p>
-            <p style='font-size: 14px; line-height: 140%;'><span style='color: #000000; font-size: 14px; line-height: 19.6px;'><span style='font-size: 14px; line-height: 19.6px;'>Dengan membuat akun, saya telah setuju dengan </span><strong><span style='font-size: 14px; line-height: 19.6px;'><span style='color: #954ed9; font-size: 14px; line-height: 19.6px;'>syarat &amp; ketentuan</span></span></strong><span style='font-size: 14px; line-height: 19.6px;'> serta <strong><span style='color: #954ed9; font-size: 14px; line-height: 19.6px;'>privacy policy </span></strong>dari CARInih</span></span></p>
-              </div>
+  //             <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
+  //               <p style='font-size: 14px; line-height: 140%;'>atau klik<br /><span style='color: #843fa1; font-size: 14px; line-height: 19.6px;'><strong><span style='font-size: 14px; line-height: 19.6px;'><a style='color: #954ed9;'<a href='https://www.carinih.ws/webmin/verification/index/$data' target='_blank' rel='noopener'>https://www.carinih.com/verification/$data</a></span></strong></span></p>
+  //           <p style='font-size: 14px; line-height: 140%;'>&nbsp;</p>
+  //           <p style='font-size: 14px; line-height: 140%;'><span style='color: #000000; font-size: 14px; line-height: 19.6px;'><span style='font-size: 14px; line-height: 19.6px;'>Dengan membuat akun, saya telah setuju dengan </span><strong><span style='font-size: 14px; line-height: 19.6px;'><span style='color: #954ed9; font-size: 14px; line-height: 19.6px;'>syarat &amp; ketentuan</span></span></strong><span style='font-size: 14px; line-height: 19.6px;'> serta <strong><span style='color: #954ed9; font-size: 14px; line-height: 19.6px;'>privacy policy </span></strong>dari CARInih</span></span></p>
+  //             </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:5px 40px 30px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:5px 40px 30px;font-family:Lato,sans-serif;' align='left'>
                     
-              <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
-                <p style='font-size: 14px; line-height: 140%;color:black'>Tidak yakin kenapa kamu mendapatkan email ini? <a href='mailto:care@carinih.com' style='color:#954ed9'> Hubungi kita.</a><br />Salam CARI!</p>
-              </div>
+  //             <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
+  //               <p style='font-size: 14px; line-height: 140%;color:black'>Tidak yakin kenapa kamu mendapatkan email ini? <a href='mailto:care@carinih.com' style='color:#954ed9'> Hubungi kita.</a><br />Salam CARI!</p>
+  //             </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent;'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: white;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: #ffffff;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: transparent;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent;'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: white;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: #ffffff;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: transparent;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='300' style='background-color: #ffffff;width: 300px;padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-50' style='max-width: 320px;min-width: 300px;display: table-cell;vertical-align: top;'>
-              <div style='background-color: #ffffff;width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='300' style='background-color: #ffffff;width: 300px;padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-50' style='max-width: 320px;min-width: 300px;display: table-cell;vertical-align: top;'>
+  //             <div style='background-color: #ffffff;width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:Lato,sans-serif;' align='left'>
                     
-            <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-              <tr>
+  //           <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+  //             <tr>
 
-                <td style='padding-right: 0px;padding-left: 0px;' align='center'>
+  //               <td style='padding-right: 0px;padding-left: 0px;' align='center'>
                   
-                  <img align='center' border='0' src='http://carinih.ws/assets/images/logo_carinih.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 280px;' width='280'/>
+  //                 <img align='center' border='0' src='http://carinih.ws/assets/images/logo_carinih.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 280px;' width='280'/>
                   
-                </td>
+  //               </td>
 
-              </tr>
-            </table>
+  //             </tr>
+  //           </table>
 
 
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-            <!--[if (mso)|(IE)]><td align='center' width='300' style='width: 300px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-50' style='max-width: 320px;min-width: 300px;display: table-cell;vertical-align: top;'>
-              <div style='width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='300' style='width: 300px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-50' style='max-width: 320px;min-width: 300px;display: table-cell;vertical-align: top;'>
+  //             <div style='width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent;'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: #ffffff;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: transparent;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent;'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: #ffffff;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: transparent;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='600' style='background-color: #ffffff;width: 600px;padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
-              <div style='background-color: #ffffff;width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='600' style='background-color: #ffffff;width: 600px;padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
+  //             <div style='background-color: #ffffff;width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px 24px 24px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:Lato,sans-serif;' align='left'>
                     
-              <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
-                <p style='font-size: 14px; line-height: 140%;'><strong>PT Dasa Karya Indonesia (CARInih &amp; CARImakan)</strong></p>
-              </div>
+  //             <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
+  //               <p style='font-size: 14px; line-height: 140%;'><strong>PT Dasa Karya Indonesia (CARInih &amp; CARImakan)</strong></p>
+  //             </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;background-color: #954ed9'>
-              <div style='width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 17px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;background-color: #954ed9'>
+  //             <div style='width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 17px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-            <table id='u_content_text_7' style='font-family:Lato ,sans-serif;' role=presentation cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td class='v-container-padding-padding' style='overflow-wrap:break-word;word-break:break-word;padding:7px;font-family:'Lato,sans-serif; align='left'>
+  //           <table id='u_content_text_7' style='font-family:Lato ,sans-serif;' role=presentation cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td class='v-container-padding-padding' style='overflow-wrap:break-word;word-break:break-word;padding:7px;font-family:'Lato,sans-serif; align='left'>
                     
-              <div class='v-line-height' style='line-height: 140%; text-align: left; word-wrap: break-word;'>
-                <p style='font-size: 14px; line-height: 140%; text-align: center;'><span style='font-size: 14px; line-height: 19.6px;'><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/ig.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  @carinih | @carimakan_official </span><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/fb.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  <font color='white'>@carinih.id @CARImakan</font> </span></span></p>
-            <p style='font-size: 14px; line-height: 140%; text-align: center;'><span style='font-size: 14px; line-height: 19.6px;'><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/linkedin.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  @CARInih | @CARImakan </span><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/tiktok.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  @carinih_id | @carimakan_officia </span></span></p>
-            <p style='font-size: 14px; line-height: 140%; text-align: center;'><span style='color: white; font-size: 14px; line-height: 19.6px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/wa.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  0889 3838 889 </span><span style='color: white; font-size: 14px; line-height: 19.6px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/mail.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/> <a style='color: white;' href='mailto:care@carinih.com' target='_blank' rel='noopener'><font color='white'>care@carinih.com</font></a>&nbsp;<br /><font color='white'>www.carinih.com</font></span></p>
-              </div>
+  //             <div class='v-line-height' style='line-height: 140%; text-align: left; word-wrap: break-word;'>
+  //               <p style='font-size: 14px; line-height: 140%; text-align: center;'><span style='font-size: 14px; line-height: 19.6px;'><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/ig.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  @carinih | @carimakan_official </span><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/fb.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  <font color='white'>@carinih.id @CARImakan</font> </span></span></p>
+  //           <p style='font-size: 14px; line-height: 140%; text-align: center;'><span style='font-size: 14px; line-height: 19.6px;'><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/linkedin.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  @CARInih | @CARImakan </span><span style='color: white; line-height: 19.6px; font-size: 14px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/tiktok.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  @carinih_id | @carimakan_officia </span></span></p>
+  //           <p style='font-size: 14px; line-height: 140%; text-align: center;'><span style='color: white; font-size: 14px; line-height: 19.6px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/wa.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/>  0889 3838 889 </span><span style='color: white; font-size: 14px; line-height: 19.6px;'> <img align='center' border='0' src='http://carinih.ws/assets/images/sosial_media/mail.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 20px;' width='20'/> <a style='color: white;' href='mailto:care@carinih.com' target='_blank' rel='noopener'><font color='white'>care@carinih.com</font></a>&nbsp;<br /><font color='white'>www.carinih.com</font></span></p>
+  //             </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
 
 
 
-            <div class='u-row-container' style='padding: 0px;background-color: transparent'>
-              <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
-                <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
-                  <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #f9f9f9;'><![endif]-->
+  //           <div class='u-row-container' style='padding: 0px;background-color: transparent'>
+  //             <div class='u-row' style='Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;'>
+  //               <div style='border-collapse: collapse;display: table;width: 100%;background-color: transparent;'>
+  //                 <!--[if (mso)|(IE)]><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding: 0px;background-color: transparent;' align='center'><table cellpadding='0' cellspacing='0' border='0' style='width:600px;'><tr style='background-color: #f9f9f9;'><![endif]-->
                   
-            <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
-            <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
-              <div style='width: 100% !important;'>
-              <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
+  //           <!--[if (mso)|(IE)]><td align='center' width='600' style='width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;' valign='top'><![endif]-->
+  //           <div class='u-col u-col-100' style='max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;'>
+  //             <div style='width: 100% !important;'>
+  //             <!--[if (!mso)&(!IE)]><!--><div style='padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;'><!--<![endif]-->
               
-            <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
-              <tbody>
-                <tr>
-                  <td style='overflow-wrap:break-word;word-break:break-word;padding:0px 40px 30px 20px;font-family:Lato,sans-serif;' align='left'>
+  //           <table style='font-family:Lato,sans-serif;' role='presentation' cellpadding='0' cellspacing='0' width='100%' border='0'>
+  //             <tbody>
+  //               <tr>
+  //                 <td style='overflow-wrap:break-word;word-break:break-word;padding:0px 40px 30px 20px;font-family:Lato,sans-serif;' align='left'>
                     
-              <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
+  //             <div style='line-height: 140%; text-align: left; word-wrap: break-word;'>
                 
-              </div>
+  //             </div>
 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
 
-              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-              </div>
-            </div>
-            <!--[if (mso)|(IE)]></td><![endif]-->
-                  <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                </div>
-              </div>
-            </div>
+  //             <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+  //             </div>
+  //           </div>
+  //           <!--[if (mso)|(IE)]></td><![endif]-->
+  //                 <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+  //               </div>
+  //             </div>
+  //           </div>
 
 
-                <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-                </td>
-              </tr>
-              </tbody>
-              </table>
-              <!--[if mso]></div><![endif]-->
-              <!--[if IE]></div><![endif]-->
+  //               <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+  //               </td>
+  //             </tr>
+  //             </tbody>
+  //             </table>
+  //             <!--[if mso]></div><![endif]-->
+  //             <!--[if IE]></div><![endif]-->
 
-            </body>
+  //           </body>
 
-            </html>""";
+  //           </html>""";
 
-    // launch(
-    //   "mailto:cari@carimakan.co.id?mailfrom:cari@carimakan.co.id?subject=Tcari@carimakan.co.id=https://www.carinih.com/verification/'${data}'");
+  //   // launch(
+  //   //   "mailto:cari@carimakan.co.id?mailfrom:cari@carimakan.co.id?subject=Tcari@carimakan.co.id=https://www.carinih.com/verification/'${data}'");
 
-    // Email it.
-    emailTransport
-        .send(envelope)
-        .then((envelope) => print('Email sent!'))
-        .catchError((e) => print('Error occurred: $e'));
-  }
+  //   // Email it.
+  //   emailTransport
+  //       .send(envelope)
+  //       .then((envelope) => print('Email sent!'))
+  //       .catchError((e) => print('Error occurred: $e'));
+  // }
 
   //
   final _formKey = GlobalKey<FormState>();
@@ -773,7 +842,7 @@ class _SignUpState extends State<SignUp> {
                                   TextFormField(
                                     validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Kosong';
+                                        return 'Nama Tidak Boleh Kosong';
                                       }
                                       return null;
                                     },
@@ -797,7 +866,7 @@ class _SignUpState extends State<SignUp> {
                                   TextFormField(
                                      validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Kosong';
+                                        return 'Email Tidak Boleh Kosong';
                                       }
                                       return null;
                                     },
@@ -824,7 +893,7 @@ class _SignUpState extends State<SignUp> {
                                   TextFormField(
                                      validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Kosong';
+                                        return 'Nomor Tidak Boleh Kosong';
                                       }
                                       return null;
                                     },
@@ -863,7 +932,7 @@ class _SignUpState extends State<SignUp> {
                                   TextFormField(
                                     validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Kosong';
+                                        return 'Kata Sandi Tidak Boleh Kosong';
                                       }
                                       return null;
                                     },
@@ -892,21 +961,21 @@ class _SignUpState extends State<SignUp> {
                                   GestureDetector(
                                     onTap: () {
                                       if (_formKey.currentState.validate()) {
-                                        generate();
-                                        main1();
+                                        // generate();
+                                        // main1();
                                         addData();
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        SelesaiVerifikasi()));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder:
+                                        //             (BuildContext context) =>
+                                        //                 SelesaiVerifikasi()));
                                       } else {
                                         // Scaffold.of(context).showSnackBar(
                                         //     SnackBar(
                                         //         content:
                                         //             Text('Processing Data')));
-                                        getData();
+                                        // getData();
                                       }
 
                                       //                          launch(

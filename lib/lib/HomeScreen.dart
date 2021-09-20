@@ -1,13 +1,14 @@
 import 'dart:convert';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:dinamika/ICON_DLL_PALING_ATAS/Bantuan_&_Lainnya.dart';
 import 'package:dinamika/ICON_DLL_PALING_ATAS/Icon_dll.dart';
 import 'package:dinamika/ICON_DLL_PALING_ATAS/Layanan_Carinih.dart';
 import 'package:dinamika/ICON_DLL_PALING_ATAS/Penawaran_lainnya.dart';
 import 'package:dinamika/ICON_DLL_PALING_ATAS/Penawaran_menarik.dart';
+import 'package:dinamika/ICON_DLL_PALING_ATAS/Pengaturan.dart';
 import 'package:dinamika/ICON_DLL_PALING_ATAS/Produk_Carinih.dart';
 import 'package:dinamika/LOGIN/login.dart';
+import 'package:dinamika/LOGOUT/logout.dart';
 import 'package:dinamika/Max_HightNot700/HomeScreenNot700.dart';
 import 'package:dinamika/Produk_Home/Flash_Sale.dart';
 import 'package:dinamika/Produk_Home/Produk_Home_7.dart';
@@ -28,11 +29,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'CART/cart.dart';
+import 'PROFILE/profile.dart';
 import 'Produk_Home/Produk_Home_baris_6.dart';
 
 class HomeScreen extends StatefulWidget {
+  //    String sukses;
+  //    String idcustomer;
+  // HomeScreen({Key key, this.sukses,this.idcustomer}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -81,7 +88,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     print('$data1');
   }
-
+  //
+List datacart;
+  String customer;
+   getDataCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    customer = prefs.getString('customer');
+    var response = await http.get(
+        Uri.parse(Uri.encodeFull('https://carinih.ws/api/cart/$customer')),
+        headers: {"Accept": "application/json"});
+    print(response.body);
+    //
+    setState(() {
+      var converDataToJson = json.decode(response.body);
+      datacart = converDataToJson['data'];
+    });
+    return "Success";
+  }
 //
 //banner
   //
@@ -112,6 +135,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         .animate(_TextAnimationController);
     getJsonData();
     getData();
+    ambildata();
     super.initState();
   }
 
@@ -124,7 +148,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return true;
     }
   }
-
+//
+String data;
+ ambildata() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // setState(() {
+    //   data = (prefs.getString('true') ?? '');
+    // });
+     final prefs = await SharedPreferences.getInstance();
+    data = prefs.getString('true');
+  }
+//
   bool tampil = false;
   bool isLoading = false;
   @override
@@ -143,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.red,
                 child: Scaffold(
+                  resizeToAvoidBottomInset: false,
                   backgroundColor: Colors.white,
                   body: NotificationListener<ScrollNotification>(
                     onNotification: _scrollListener,
@@ -156,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 //unutk banner
                                 SizedBox(
-                                    height: ScreenUtil().setHeight(230),
+                                    height: ScreenUtil().setHeight(240),
                                     child: isLoading
                                         ? Carousel(
                                             // autoplay: true,
@@ -234,13 +269,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 Stack(
                                   children: [
                                     Positioned(
-                                      top: 220.h,
+                                      top: 225.h,
                                       left: 15.w,
                                       right: 15.w,
                                       child: isLoading
                                           ? Container(
-                                              height: 80.h,
-                                              width: 0.9.sw,
+                                              height: 75.h,
+                                              width: 0.9.w,
                                               decoration: BoxDecoration(
                                                   color: Colors.deepPurple[400],
                                                   borderRadius:
@@ -257,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   //unutk ke halaman Login
                                                   GestureDetector(
                                                     onTap: () {
-                                                      Navigator.push(
+                                                         '$data'.contains('success') ?SizedBox():Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (BuildContext
@@ -293,15 +328,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                   MainAxisAlignment
                                                                       .center,
                                                               children: [
-                                                                Text(
+                                                               '$data'.contains('success') ?Text('CARI DONASI',style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          13.sp),): Text(
                                                                   'WELCOME',
                                                                   style: TextStyle(
                                                                       color: Colors
                                                                           .white,
                                                                       fontSize:
-                                                                          13.sp),
+                                                                          12.sp),
                                                                 ),
-                                                                Container(
+                                                                '$data'.contains('success')?Text('Total Rp 10.000',style: TextStyle(
+                                                                      color: Colors
+                                                                          .white70,
+                                                                      fontSize:
+                                                                          11.sp),):Container(
                                                                     width:
                                                                         0.2.sw,
                                                                     child: Text(
@@ -312,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .white,
-                                                                          fontSize: 12
+                                                                          fontSize: 11
                                                                               .sp,
                                                                           fontFamily:
                                                                               'Comfortaa'),
@@ -324,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   ),
                                                   //
                                                   Container(
-                                                    height: 65.h,
+                                                    height: 50.h,
                                                     width: 0.01.sw,
                                                     color: Colors.white,
                                                   ),
@@ -404,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         padding: EdgeInsets.only(
                                             left: ScreenUtil().setWidth(10),
                                             right: ScreenUtil().setWidth(10),
-                                            top: 280.h),
+                                            top: 285.h),
                                         child: Container(
                                           height: 220.h,
 
@@ -1054,35 +1097,102 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             ProdukHome(),
                             //
+                              Padding(
+                                padding: EdgeInsets.only(top: (ScreenUtil().setHeight(20.h))),
+                                child: Container(
+                                    color: Colors.grey[200],
+                                    height: 20.h,
+                                  ),
+                              ),
+                            //
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: (ScreenUtil().setHeight(20.h))),
+                                  top: (ScreenUtil().setHeight(6.h))),
                               child: ProdukCariStore(),
                             ),
+                            //
+                             Padding(
+                              padding: EdgeInsets.only(
+                                  left: (ScreenUtil().setWidth(7.w)),
+                                  right: (ScreenUtil().setWidth(7.w)),
+                                  top: 3.h),
+                              child: Divider(
+                                thickness: 3.h,
+                                color: Colors.grey[200],
+                              ),
+                            ),
+                            //
                             ProdukHome2(),
                             //
+                              Padding(
+                                padding: EdgeInsets.only(top: (ScreenUtil().setHeight(20.h))),
+                                child: Container(
+                                    color: Colors.grey[200],
+                                    height: 20.h,
+                                  ),
+                              ),
+                              //
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: (ScreenUtil().setHeight(20.h))),
+                                  top: (ScreenUtil().setHeight(6.h))),
                               child: ProdukCariMitra(),
                             ),
+                            //
+                              Padding(
+                              padding: EdgeInsets.only(
+                                  left: (ScreenUtil().setWidth(7.w)),
+                                  right: (ScreenUtil().setWidth(7.w)),
+                                  top: 3.h),
+                              child: Divider(
+                                thickness: 3.h,
+                                color: Colors.grey[200],
+                              ),
+                            ),
+                            //
                             ProdukHome3(),
+                            //
+                               Padding(
+                                padding: EdgeInsets.only(top: (ScreenUtil().setHeight(20.h))),
+                                child: Container(
+                                    color: Colors.grey[200],
+                                    height: 20.h,
+                                  ),
+                              ),
                             //
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: (ScreenUtil().setHeight(20.h))),
+                                  top: (ScreenUtil().setHeight(6.h))),
                               child: ProdukMitra(),
+                            ),
+                            //
+                              Padding(
+                              padding: EdgeInsets.only(
+                                  left: (ScreenUtil().setWidth(7.w)),
+                                  right: (ScreenUtil().setWidth(7.w)),
+                                  top: 3.h),
+                              child: Divider(
+                                thickness: 3.h,
+                                color: Colors.grey[200],
+                              ),
                             ),
                             //
                             ProdukHome4(),
                             //
                             Padding(
+                                padding: EdgeInsets.only(top: (ScreenUtil().setHeight(20.h))),
+                                child: Container(
+                                    color: Colors.grey[200],
+                                    height: 20.h,
+                                  ),
+                              ),
+                            //
+                            Padding(
                               padding: EdgeInsets.only(
-                                  left: (ScreenUtil().setHeight(35.w)),
-                                  right: (ScreenUtil().setHeight(35.w)),
+                                  left: (ScreenUtil().setHeight(30.w)),
+                                  right: (ScreenUtil().setHeight(30.w)),
                                   top: 20.h),
                               child: Container(
-                                height: 230.h,
+                                height: 190.h,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(color: Colors.grey)),
@@ -1101,11 +1211,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             //
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: (ScreenUtil().setHeight(35.w)),
-                                  right: (ScreenUtil().setHeight(35.w)),
+                                  left: (ScreenUtil().setHeight(30.w)),
+                                  right: (ScreenUtil().setHeight(30.w)),
                                   top: 20.h),
                               child: Container(
-                                height: 230.h,
+                                height: 190.h,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(color: Colors.grey)),
@@ -1122,10 +1232,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                             ),
                             //
+                                Padding(
+                                padding: EdgeInsets.only(top: (ScreenUtil().setHeight(20.h))),
+                                child: Container(
+                                    color: Colors.grey[200],
+                                    height: 20.h,
+                                  ),
+                              ),
+                            //
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: (ScreenUtil().setHeight(25.h))),
+                                  top: (ScreenUtil().setHeight(6.h))),
                               child: TipsKesehatan(),
+                            ),
+                            //
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: (ScreenUtil().setWidth(7.w)),
+                                  right: (ScreenUtil().setWidth(7.w)),
+                                  top: 3.h),
+                              child: Divider(
+                                thickness: 3.h,
+                                color: Colors.grey[200],
+                              ),
                             ),
                             //
                             ProdukHome7()
@@ -1190,13 +1319,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         //dibawah singlechilscroolview masi didalam stack pertama
                         //unutk animasi na icon ditengah tengah
                         //unutk yang jika d scrool maka akan berubah warna(animaation)
-                        Container(
-                          // height: 80,
-                          //stack ini unutk animatedbuilder yang paling atas jika d scroll akan berubah warna
-                          child: Stack(
-                            children: [
-                              //untuk icon dll
-                              AnimatedOpacity(
+                        //
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              //unutk icon d tengah
+              AnimationFloat(),
+              //unutk jika d click maka akan muncul icon dll na
+                  AnimatedOpacity(
                                 opacity: tampil ? 1.0 : 0.0,
                                 duration: Duration(seconds: 1),
                                 child: tampil
@@ -1222,7 +1354,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       PenawaranLainnya(),
                                                       ProdukCarinih(),
                                                       LayananCARInih(),
-                                                      BantuanLainnya()
+                                                      Pengaturan(),
+                                                      BantuanLainnya(),
+                                                      Logout()
                                                     ],
                                                   ),
                                                 ),
@@ -1258,8 +1392,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       )
                                     : SizedBox(),
                               ),
-                              //dibawah container ada animated builder
-                              AnimatedBuilder(
+                              //unutk icon yag paling atas yang ada cari masker na
+                                AnimatedBuilder(
                                 animation: _ColorAnimationController,
                                 builder: (context, child) => Column(
                                   children: [
@@ -1288,7 +1422,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         // unutk searcbar na
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
                                                 decoration: BoxDecoration(
@@ -1332,14 +1466,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   color: _iconColorTween1.value,
                                                   fit: BoxFit.contain,
                                                 )),
-                                            Container(
+                                            GestureDetector(
+                                              onTap:(){
+                                                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Cart()));
+                                              },
+                                              child: Container(
+                                                  height: 20,
+                                                  width: 25,
+                                                  child: Image.asset(
+                                                    'gambar/images/cart_icon.png',
+                                                    color: _iconColorTween1.value,
+                                                    fit: BoxFit.contain,
+                                                  )),
+                                            ),
+                                                 GestureDetector(
+                                                   onTap: () async {
+                                //                        final preff3 =
+                                //     await SharedPreferences.getInstance();
+                                // preff3.setString(
+                                //     'customer', '${widget.idcustomer}');
+                                                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Profile()));
+                                                   },
+                                                   child: Container(
                                                 height: 20,
                                                 width: 25,
                                                 child: Image.asset(
-                                                  'gambar/images/cart_icon.png',
-                                                  color: _iconColorTween1.value,
-                                                  fit: BoxFit.contain,
+                                                    'gambar/images/login_email.png',
+                                                    color: _iconColorTween1.value,
+                                                    fit: BoxFit.contain,
                                                 )),
+                                                 ),
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
@@ -1361,16 +1517,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        //
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              AnimationFloat(),
             ],
           ),
         ),
